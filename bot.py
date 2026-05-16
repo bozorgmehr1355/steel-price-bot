@@ -138,7 +138,7 @@ def load_json(filepath, default=None):
         except Exception as e:
             print(f"خطا در بارگذاری {filepath}: {e}")
             if default is not None:
-                save_json(filepath, d
+                save_json(filepath, data)
                 return default
             return {}
 
