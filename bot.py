@@ -837,9 +837,9 @@ def main():
     app.add_handler(CallbackQueryHandler(back,    pattern="^back$"))
     
     # ثبت هندلرهای مربوط به قیمت کارخانه
-    application.add_handler(CallbackQueryHandler(factory_menu, pattern="^factory_menu_start$"))
-    application.add_handler(CallbackQueryHandler(factory_product_selected, pattern="^fact_prod_"))
-    application.add_handler(CallbackQueryHandler(factory_region_selected, pattern="^fact_reg_"))
+    app.add_handler(CallbackQueryHandler(factory_menu, pattern="^factory_menu_start$"))
+    app.add_handler(CallbackQueryHandler(factory_product_selected, pattern="^fact_prod_"))
+    app.add_handler(CallbackQueryHandler(factory_region_selected, pattern="^fact_reg_"))
 
     print("✅ ربات روشن شد")
     app.run_polling()
