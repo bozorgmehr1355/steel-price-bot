@@ -5,7 +5,6 @@ import threading
 import requests
 import re
 import json
-import os
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes, CallbackQueryHandler
 from datetime import datetime
