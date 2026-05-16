@@ -293,7 +293,7 @@ def main_keyboard():
 
 def factory_products_keyboard():
     return InlineKeyboardMarkup([
-        InlineKeyboardButton("📏 میلگرد آجدار", callback_data="fact_prod_rebar"),
+        [InlineKeyboardButton("📏 میلگرد آجدار", callback_data="fact_prod_rebar"),
          InlineKeyboardButton("🔩 شمش فولادی", callback_data="fact_prod_billet")],
         [InlineKeyboardButton("🏭 آهن اسفنجی (DRI)", callback_data="fact_prod_dri")],
         [InlineKeyboardButton("🟤 گندله", callback_data="fact_prod_pellet"),
