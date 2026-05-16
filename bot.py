@@ -294,10 +294,10 @@ def main_keyboard():
 def factory_products_keyboard():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("📏 میلگرد آجدار", callback_data="fact_rebar"),
-         InlineKeyboardButton("🔩 شمش فولادی", callback_data="fact_prod_billet"),
+        [InlineKeyboardButton("🔩 شمش فولادی", callback_data="fact_prod_billet"),
         [InlineKeyboardButton("🏭 آهن اسفنجی (DRI)", callback_data="fact_dri"),
         [InlineKeyboardButton("🟤 گندله", callback_data="fact_pellet"),
-         InlineKeyboardButton("🪨 کنسانتره سنگ آهن", callback_data="fact_concentrate"),
+        [InlineKeyboardButton("🪨 کنسانتره سنگ آهن", callback_data="fact_concentrate"),
         [InlineKeyboardButton("🔙 بازگشت به منوی اصلی", callback_data="back"),
     ])
 
