@@ -1,0 +1,43 @@
+فایل‌های محرمانه
+.env
+
+config.json
+
+فایل‌های داده تولیدی
+data/*.json
+
+prices_*.json
+
+rates_*.json
+کش پایتون
+
+pycache/
+
+*.py[cod]
+
+*$py.class
+
+*.so
+محیط مجازی
+venv/
+
+env/
+
+ENV/
+
+.venv
+IDE
+.vscode/
+
+.idea/
+
+*.swp
+
+*.swo
+لاگ‌ها
+*.log
+
+logs/
+
+سیستم‌عامل
+.DS_Store
