@@ -837,8 +837,8 @@ def main():
     
     # ثبت هندلرهای مربوط به قیمت کارخانه
     app.add_handler(CallbackQueryHandler(factory_menu, pattern="^factory_menu_start$"))
-    application.add_handler(CallbackQueryHandler(factory_product_selected, pattern="^fact_prod_"))
-    application.add_handler(CallbackQueryHandler(factory_region_selected, pattern="^fact_reg_"))
+    app.add_handler(CallbackQueryHandler(factory_product_selected, pattern="^fact_prod_"))
+    app.add_handler(CallbackQueryHandler(factory_region_selected, pattern="^fact_reg_"))
     app.run_polling()
 
 if __name__ == "__main__":
