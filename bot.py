@@ -24,6 +24,7 @@ from bs4 import BeautifulSoup
 # CONFIGURATION
 # ═══════════════════════════════════
 
+
 TOKEN = os.environ.get("BOT_TOKEN")
 METALPRICE_API_KEY = os.environ.get("METALPRICE_API_KEY")
 ADMIN_ID = 715854466
