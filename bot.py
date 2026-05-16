@@ -92,45 +92,85 @@ def update_rates():
     current["last_update"] = datetime.now().isoformat()
     save_json(RATE_FILE, current)
 
+
+import logging
+
+# تنظیم لاگر برای ثبت خطاها در Railway
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def scrape_billet_from_ahanmelal():
+    url = "https://ahanmelal.com/steel-ingots/steel-ingot-price"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
     try:
-        headers = {"User-Agent": "Mozilla/5.0"}
-        r = requests.get("https://ahanmelal.com/steel-ingots/steel-ingot-price", headers=headers, timeout=30)
-        if r.status_code == 200:
-            soup = BeautifulSoup(r.text, 'html.parser')
-            table = soup.find('table')
-            if table:
-                for row in table.find_all('tr'):
-                    cells = row.find_all('td')
-                    if len(cells) >= 2:
-                        text = ' '.join(c.get_text() for c in cells)
-                        for num in re.findall(r'(\d{1,3}(?:,\d{3})+)', text):
-                            price = int(num.replace(',', ''))
-                            if 40000 < price < 60000:
-                                return price
+        # افزایش زمان انتظار به ۳۰ ثانیه
+        r = requests.get(url, headers=headers, timeout=30)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, 'html.parser')
+        
+        table = soup.find('table')
+        if not table:
+            return None
+            
+        rows = table.find_all('tr')
+        for row in rows:
+            cols = row.find_all('td')
+            if len(cols) >= 2:
+
+                price_text = cols[-1].text.strip()
+                import re
+                numbers = re.findall(r'\d+', price_text.replace(',', ''))
+                if numbers:
+                    price = int(numbers[0])
+                    if 40000 < price < 60000:
+                        return price
+        return None
+            
+    except requests.exceptions.Timeout:
+        logger.error("خطای Timeout: سایت آهن‌ملل در دریافت قیمت شمش زمان زیادی برد.")
+        return None
     except Exception as e:
-        print(f"خطای اسکرپر شمش: {e}")
-    return None
+        logger.error(f"خطای اسکرپر شمش: {e}")
+        return None
 
 def scrape_rebar_from_ahanmelal():
+    url = "https://ahanmelal.com/steel-products/rebar-price"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
     try:
-        headers = {"User-Agent": "Mozilla/5.0"}
-        r = requests.get("https://ahanmelal.com/steel-products/rebar-price", headers=headers, timeout=15)
-        if r.status_code == 200:
-            soup = BeautifulSoup(r.text, 'html.parser')
-            table = soup.find('table')
-            if table:
-                for row in table.find_all('tr'):
-                    cells = row.find_all('td')
-                    if len(cells) >= 2:
-                        text = ' '.join(c.get_text() for c in cells)
-                        for num in re.findall(r'(\d{1,3}(?:,\d{3})+)', text):
-                            price = int(num.replace(',', ''))
-                            if 50000 < price < 80000:
-                                return price
+        # افزایش زمان انتظار به ۳۰ ثانیه
+        r = requests.get(url, headers=headers, timeout=30)
+
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, 'html.parser')
+        
+        table = soup.find('table')
+        if not table:
+            return None
+            
+        rows = table.find_all('tr')
+        for row in rows:
+            cols = row.find_all('td')
+            if len(cols) >= 2:
+                price_text = cols[-1].text.strip()
+                import re
+                numbers = re.findall(r'\d+', price_text.replace(',', ''))
+                if numbers:
+                    price = int(numbers[0])
+                    if 20000 < price < 40000:
+                        return price
+        return None
+            
+    except requests.exceptions.Timeout:
+        logger.error("خطای Timeout: سایت آهن‌ملل در دریافت قیمت میلگرد زمان زیادی برد.")
+        return None
     except Exception as e:
-        print(f"خطای اسکرپر میلگرد: {e}")
-    return None
+        logger.error(f"خطای اسکرپر میلگرد: {e}")
+        return None
+
 
 def update_all_prices():
     current = load_json(PRICE_FILE, {
