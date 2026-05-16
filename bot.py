@@ -423,17 +423,14 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         world = load_world_prices()
         
         text = (
-            "🌍 قیمتهای جهانی فولاد\n\n"
+            “🌍 قیمتهای جهانی فولاد\n\n”
             
-            f"🪨 سنگ آهن: ${format_float(world.get('iron_ore_base', 0))}\n\n"
-            
-            f"🔹 کنسانتره FOB: $
-
-{format_float(world.get('concentrate_fob', 0))}\n"
-            f"🔹 گندله FOB: ${format_float(world.get('pellet_fob', 0))}\n"
-            f"🔹 آهن اسفنجی FOB: ${format_float(world.get('dri_fob', 0))}\n"
-            f"🔹 بیلت FOB: ${format_float(world.get('billet_fob', 0))}\n"
-            f"🔹 میلگرد FOB: ${format_float(world.get('rebar_fob', 0))}\n\n"
+            "🪨 سنگ آهن: ${format_float(world.get(‘iron_ore_base’, 0))}\n\n"
+            f"🔹 کنسانتره FOB: ${format_float(world.get(‘concentrate_fob’, 0))}\n"
+            f"🔹 گندله FOB: ${format_float(world.get(‘pellet_fob’, 0))}\n"
+            f"🔹 آهن اسفنجی FOB: ${format_float(world.get(‘dri_fob’, 0))}\n"
+            f"🔹 بیلت FOB: ${format_float(world.get(‘billet_fob’, 0))}\n"
+            f"🔹 میلگرد FOB: ${format_float(world.get(‘rebar_fob’, 0))}\n\n"
             
             f"🕒 آخرین بروزرسانی:\n"
             f"{world.get('last_update', 'نامشخص')}"
