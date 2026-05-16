@@ -96,7 +96,7 @@ def update_rates():
 def scrape_billet_from_ahanmelal():
     try:
         headers = {"User-Agent": "Mozilla/5.0"}
-        r = requests.get("https://ahanmelal.com/steel-ingots/steel-ingot-price", headers=headers, timeout=15)
+        r = requests.get("https://ahanmelal.com/steel-ingots/steel-ingot-price", headers=headers, timeout=30)
         if r.status_code == 200:
             soup = BeautifulSoup(r.text, 'html.parser')
             table = soup.find('table')
