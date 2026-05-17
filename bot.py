@@ -54,7 +54,15 @@ def to_persian(num):
     return ''.join(persian.get(ch, ch) for ch in str(num))
 
 def format_number(num):
-    return to_persian(f"{num:,}")
+    try:
+        # بررسی می‌کنیم اگر متن است، ویرگول‌های اضافه‌اش پاک شود
+        if isinstance(num, str):
+            num = num.replace(',', '')
+        # تبدیل به عدد و اضافه کردن ویرگول استاندارد
+        return to_persian(f"{int(float(num)):,}")
+    except (ValueError, TypeError):
+        # اگر متن معمولی بود (مثل "نامشخص") همان را برگرداند
+        return to_persian(str(num))
 
 def format_float(num, decimals=2):
     return to_persian(f"{num:,.{decimals}f}")
