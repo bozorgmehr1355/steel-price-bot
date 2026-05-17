@@ -55,6 +55,12 @@ def to_persian(num):
 
 def format_number(num):
     try:
+        if isinstance(num, str):
+            num = num.replace(',', '')
+        val = int(float(num))
+        return to_persian(f"{val:,}")
+    except (ValueError, TypeError):
+        return to_persian(str(num))
         # بررسی می‌کنیم اگر متن است، ویرگول‌های اضافه‌اش پاک شود
         if isinstance(num, str):
             num = num.replace(',', '')
@@ -504,16 +510,33 @@ async def ice(update, context):
 async def free(update, context):
     await update.callback_query.answer()
     p = load_prices()
+    
+    # تابع کمکی برای تبدیل ایمن قیمت به عدد (حذف کاما و تبدیل متن به عدد)
+    def safe_int(value):
+        try:
+            if isinstance(value, str):
+                value = value.replace(',', '')
+            return int(float(value))
+        except (ValueError, TypeError):
+            return 0
+            
+    # دریافت و تبدیل ایمن قیمت‌ها
+    concentrate = safe_int(p.get('concentrate', 0))
+    pellet = safe_int(p.get('pellet', 0))
+    dri = safe_int(p.get('dri', 0))
+    billet = safe_int(p.get('billet', 0))
+    rebar = safe_int(p.get('rebar', 0))
+
     text = "🔄 *قیمت بازار آزاد ایران* 🔄\n" + "━" * 35 + "\n\n"
-    text += f"🪨 کنسانتره:\n   *{format_number(p['concentrate']-200000)} - {format_number(p['concentrate']+200000)}* تومان/تن\n\n"
-    text += f"🟤 گندله:\n   *{format_number(p['pellet']-300000)} - {format_number(p['pellet']+300000)}* تومان/تن\n\n"
-    text += f"🏭 آهن اسفنجی:\n   *{format_number(p['dri']-500)} - {format_number(p['dri']+500)}* تومان/کیلو\n\n"
-    text += f"🔩 شمش فولادی:\n   *{format_number(p['billet']-2000)} - {format_number(p['billet']+2000)}* تومان/کیلو\n\n"
-    text += f"📏 میلگرد:\n   *{format_number(p['rebar']-3000)} - {format_number(p['rebar']+3000)}* تومان/کیلو\n"
+    text += f"🪨 کنسانتره:\n   *{format_number(concentrate - 200000)} - {format_number(concentrate + 200000)}* تومان/تن\n\n"
+    text += f"🟤 گندله:\n   *{format_number(pellet - 300000)} - {format_number(pellet + 300000)}* تومان/تن\n\n"
+    text += f"🏭 آهن اسفنجی:\n   *{format_number(dri - 500)} - {format_number(dri + 500)}* تومان/کیلو\n\n"
+    text += f"🔩 شمش فولادی:\n   *{format_number(billet - 2000)} - {format_number(billet + 2000)}* تومان/کیلو\n\n"
+    text += f"📏 میلگرد:\n   *{format_number(rebar - 3000)} - {format_number(rebar + 3000)}* تومان/کیلو\n"
     text += "\n" + "━" * 35 + "\n"
     text += f"📅 بروزرسانی: {to_persian(p.get('last_update', '')[:16])}"
+    
     await update.callback_query.edit_message_text(text, reply_markup=back_button(), parse_mode="Markdown")
-
 # منوی واسط جدید قیمت کارخانه
 async def factory(update, context):
     await update.callback_query.answer()
